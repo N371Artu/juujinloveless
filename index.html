@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>囚人無愛 2團_log</title>
+<style type="text/css">
+
+* { box-sizing: border-box; }
+body {
+	margin: 0 auto;
+	padding: 0;
+	font-size: 0.9rem;
+	color: #666;
+}
+header {
+	margin: 0;
+	background: #fff;
+	width: 100%;
+	position:fixed;
+	border-bottom: 1px solid #999;
+	padding: 6px 0;
+	color: #8A8A8A;
+}
+main { display: flex; margin: 0 auto; }
+#text { width: 1100px; margin: 50px auto 0; }
+footer { margin: 10px; height: 20px; font-size: 0.7rem;  text-align: right;}
+footer a { color: #aaa; text-decoration: none;}
+footer a:hover { color: #999 }
+
+h2 {
+	font-size: 0.9rem;
+	margin: 20px 0 8px 0;
+	border-left: 5px solid #000;
+	padding-left: 10px;
+}
+.nameList h2 { margin-top: 50px; }
+
+input[type=checkbox] {
+	transform: scale(1.3);
+	margin: 10px 8px 10px 3px;
+}
+dl {
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #e0e0e0;
+	margin: 0;
+}
+dt {
+	width: 18%;
+	padding: 0 10px 0 10px;
+	margin: 5px 0 5px 0;
+	font-size: 0.75rem;
+	text-align: right;
+	display: block;
+	border-right: dotted 1px #888;
+}
+dd {
+	width: 80%;
+	padding: 0 5px 0 10px;
+	margin: 5px 0 5px 0;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+.tab {
+	border-top: 1px solid #e0e0e0;
+	z-index: -1;
+	text-align: right;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-top: -1px;
+	position: relative;
+}
+.tab span {
+	display: inline-block;
+	border-bottom: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	background: #f0f0f0;
+	font-size: 0.75rem;
+	color: #666;
+	padding: 2px 6px 0 8px;
+	border-radius: 0 0 0 12px;
+	margin-top: -1px;
+}
+
+/*------------------------------
+ ハンバーガーメニュー        -*/
+
+header .hcenter {
+	max-width: 1200px;
+	display: flex;
+	margin: 0 10px;
+}
+header h1 {
+	order: 2;
+	margin: 5px 0 0 80px;
+	padding-top: 2px;
+	padding-left:10px;
+	border-left: 6px solid;
+	height: 18px;
+	line-height: 1;
+	font-size: 1.1rem;
+}
+.drawer-hidden { display: none; }
+.drawer { order: 1; }
+.drawer-open {
+	display: flex;
+	height: 28px;
+	width: 26px;
+	align-items: center;
+	position: relative;
+	z-index: 100;
+	cursor: pointer;
+	color: #8A8A8A;
+}
+.drawer-open .menusub {
+	padding-left: 32px;
+	padding-top: 2px;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.drawer-open span.menubtn,
+.drawer-open span.menubtn:before,
+.drawer-open span.menubtn:after {
+	content: '';
+	display: block;
+	height: 3px;
+	width: 25px;
+	border-radius: 3px;
+	background: #8A8A8A;
+	transition: 0.5s;
+	position: absolute;
+	margin: 0 0 0 auto;
+	text-align: right;
+}
+
+/* アイコン */
+.drawer-open span.menubtn:before { bottom: 8px;}
+.drawer-open span.menubtn:after { top: 8px;}
+#drawer-check:checked ~ .drawer-open span.menubtn {
+	background: rgba(255, 255, 255, 0);
+}
+#drawer-check:checked ~ .drawer-open span.menubtn::before {
+	bottom: 0;
+	transform: rotate(45deg);
+}
+#drawer-check:checked ~ .drawer-open span.menubtn::after {
+	top: 0;
+	transform: rotate(-45deg);
+}
+
+/* 中身 */
+.drawer-content {
+	width: 280px;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: -280px;
+	z-index: 99;
+	background: rgba(0,0,0,0.75);
+	transition: all .3s;
+	padding-left: 23px;
+	padding-top: 80px;
+	color: #fff;
+	overflow-y: auto;
+}
+#drawer-check:checked ~ .drawer-content {
+	left: 0;
+}
+.drawer-content ul { padding-left:0; }
+.drawer-content ul li { list-style:none; }
+
+
+/*------------------------------
+ 個別設定
+------------------------------*/
+.tc0 { background-color: rgb(255, 255, 255)}
+.tc1 { background-color: rgb(232, 232, 232); margin-left: 10%; font-size: 0.8rem}
+.tc2 { background-color: rgb(236, 255, 226)}
+.tc3 { background-color: rgb(226, 246, 255)}
+.tc4 { background-color: rgb(255, 255, 255)}
+.nc0 dt { color: rgb(136, 136, 136) }  /* KP赤Seki */
+.nc1 dt { color: rgb(224, 224, 224) }  /* 金沅皓 */
+.nc2 dt { color: rgb(201, 24, 63) }  /* ？ */
+.nc3 dt { color: rgb(136, 136, 136) }  /* ？ */
+.nc4 dt { color: rgb(136, 136, 136) }  /* 萊頓・達西 */
+.nc5 dt { color: rgb(201, 24, 63) }  /* 亞伯？ */
+.nc6 dt { color: rgb(136, 136, 136) }  /* system */
+.nc7 dt { color: rgb(136, 136, 136) }  /* 朝日 */
+.nc8 dt { color: rgb(136, 136, 136) }  /* 身穿白色長袍的人 */
+.nc9 dt { color: rgb(136, 136, 136) }  /* 蛇人 */
+.nc10 dt { color: rgb(201, 24, 63) }  /* 亞伯 */
+
+
+.C, .S, .SU, .SP { color: #2196F3; }
+.F, .FA { color: #F50057; }
+
+/*------------------------------
+ レスポンシブ
+------------------------------*/
+@media screen and (max-width:1100px) {
+	#list { display: none; }
+	#text { width: 90%; }
+}
+
+@media screen and (max-width:810px) {
+	body { font-size: 0.85rem; }
+	#list { display: none; }
+	#text { width: 100%; padding: 0 5px; }
+	header h1 { font-size: 1rem; margin-left: 10px; padding-left: 0; border-left: 0; padding-top: 4px; }
+	.drawer-open .menusub { display: none; }
+}
+
+</style>
+</head>
+<body>
+<header>
+	<div class="hcenter">
+		<h1>囚人無愛 2團_log</h1>
+		<div class="drawer">
+			<input type="checkbox" id="drawer-check" class="drawer-hidden">
+			<label for="drawer-check" class="drawer-open">
+				<span class="menusub">MENU</span>
+				<span class="menubtn"></span>
+			</label>
+			<setction class="drawer-content">
+				<form autocomplete="off">
+					<div class="tabList">
+						<h2>タブ</h2>
+						<ul>
+							<li><label><input id=tc0 class="select_t" type="checkbox" checked>メイン</li></label>
+							<li><label><input id=tc1 class="select_t" type="checkbox" checked>雑談</li></label>
+							<li><label><input id=tc2 class="select_t" type="checkbox" checked>情報</li></label>
+							<li><label><input id=tc3 class="select_t" type="checkbox" checked>紀錄</li></label>
+							<li><label><input id=tc4 class="select_t" type="checkbox" checked>背景</li></label>
+
+						</ul>
+					</div>
+					<div class="nameList">
+						<h2>発言者</h2>
+						<ul>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc0" class="select_n" type="checkbox" checked>KP赤Seki</li></label>
+							<li style ="color:rgb(224, 224, 224);"><label><input id="nc1" class="select_n" type="checkbox" checked>金沅皓</li></label>
+							<li style ="color:rgb(201, 24, 63);"><label><input id="nc2" class="select_n" type="checkbox" checked>？</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc3" class="select_n" type="checkbox" checked>？</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc4" class="select_n" type="checkbox" checked>萊頓・達西</li></label>
+							<li style ="color:rgb(201, 24, 63);"><label><input id="nc5" class="select_n" type="checkbox" checked>亞伯？</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc6" class="select_n" type="checkbox" checked>system</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc7" class="select_n" type="checkbox" checked>朝日</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc8" class="select_n" type="checkbox" checked>身穿白色長袍的人</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc9" class="select_n" type="checkbox" checked>蛇人</li></label>
+							<li style ="color:rgb(201, 24, 63);"><label><input id="nc10" class="select_n" type="checkbox" checked>亞伯</li></label>
+
+						</ul>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+</header>
+
+<main>
+<section id="text">
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>克蘇魯神話TRPG 囚人無愛</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你正處於半夢半醒之間，不知從哪傳來的霉臭味撲鼻而來。<br>突然、「叮鈴鈴鈴——」十分吵雜的鈴聲震耳欲聾，嚇得你下意識從床上跳了起來。<br>雖然鈴聲很快就停了，但突然的巨響讓你的心跳悸動不已。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>環顧四周的話，可以發現這是一間磚造的小房間。不論是這個房間，還是自己身上簡陋不已的服裝，你都毫無印象。房間的出入口，似乎只有眼前有著鐵欄杆的門扉而已。<br>意識到自己被關在一個陌生又像是牢房一樣的地方。【SANc 0/1】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=60 SAN (1D100&lt;=60) ＞ 58 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>將視線往上一看的話，冰冷、黯淡的鐵欄杆會映入眼簾，而在那後方，有誰正站在那裡俯視著你。<br>那個人身穿合身的守衛制服，用十分冰冷的聲音開口說道。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「——趕快準備好，20號。已經是起床時間了。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【靈感】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>發霉的氣味——令他彷彿置身在兒時回憶中的角落，他現在的家、或者是長期待著的醫院，不會出現那埋藏在回憶深處的氣味⋯⋯睜開黑色雙眸，這裡不屬於金沅皓平日所滯留的場所。<br><br>腳底落地，披散在額前的髮絲遮住緊皺的眉心，指尖搓揉品質不怎麼樣的床單，思索自己為何會被關到像牢房一樣的處所。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>聯邦調查局逮補自己？不，金沅皓不認為那些傢伙有聰明到能抓到他。<br>沒有審判過程的記憶、身上沒有正式的囚服，眼下唯一能推測出的是他被某個人綁到這——</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>注意到鐵欄前出現的男子，似乎是類似守衛的存在，沒有理會那命令般的語氣，金沅皓彎腰單手撐著下巴觀察起眼前的人。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=90 &lt;靈感IDEA&gt; (1D100&lt;=90) ＞ 87 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>雖然這個人的語氣十分淡薄，臉部也被陰影與欄杆遮擋而看不清，但這不妨礙你認出他紅色的雙眼與髮絲。他似乎是跟你有過一面之緣的探員。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他的視線相當冰冷，隔著欄杆指向你身旁的地板。往那看去的話，會發現一套簡樸的衣服。那異於日常的橘色不禁讓你聯想到囚服。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「快換上，然後把現在穿的摺好。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>眼前的男子曾經出現在他創作的犯罪現場，聯邦調查局的探員。紅色的髮絲與地面上的鮮血相近，這讓他不經想像刀刃劃過白皙肌膚的模樣。<br><br>「哈⋯⋯」沒有遵從指令，金沅皓從床邊站起身往鐵欄杆的方向走去，同時間觀察起面前的守衛，「這是什麼新把戲？」</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「我不清楚你指的是什麼。但身為囚犯，你唯一需要做的就是守規矩。」他冷冷地說道。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你湊近觀察那個人的臉，而後者沒有因此退縮，只是用他深紅色的眼眸直直盯著你。不知道是不是因為背光的關係，你隱約感覺他的雙眸相當黯淡，連同他的神色都有些疲乏。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>紅色的雙眸十分黯淡，金沅皓上下打量思索著能有多少力氣能擊倒對方，只是面前的人穿著的是他居住城市看守所的制服，如果這裡真的是監獄，那在還未將他定罪的情況下不能顯露自己真實的身份。<br><br>感到有些無趣的他走回到顯眼的亮橘色，背對守衛脫下簡樸的睡衣，換上那身囚服⋯⋯他從沒想過自己會將這一套穿上身。<br>攤平原本的布料，仔細的將每一條折線對齊後折好，樸素的睡衣現在像是放在服飾店展示的模樣般。<br><br>「好了，照你說的做了。」緊盯著那身守衛服等待著。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>見你乖乖換好了囚服，他連笑也沒笑地繼續說道。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「接下來是早餐時間，把手伸出欄杆。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>眼下除了聽從命令外也沒辦法了吧。<br>決定觀察一下情況的他走到欄杆邊伸出雙手。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你將雙手伸到鐵欄杆外，而眼前的男子會立刻牢牢抓住你的手腕。你或許會被那纖瘦外表下隱藏強力，而感到退縮或訝異吧，就在這瞬間，看守迅速打開有著鐵欄杆的門，將手銬銬在了緊握住的手腕上。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你還來不及說些什麼，他便將手銬的另一端銬上自己的手腕。連接兩人的鎖鏈大約有數公尺長，雖然不至於緊貼在一起，但行動顯然會受到限制。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「這是防止逃獄的措施。離開牢房時，必須要戴著這個跟我一起行動。」</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「你的管理者就是我，我們是兩人一組。這就是這裡的規定。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>被抓住的瞬間金沅皓想掙脫開，卻被男子的力氣握住無法動彈，連接著兩人的手銬讓他無法脫離對方的身邊。<br><br>「警官⋯⋯喔，還是該稱呼你先生？既然是兩人一組，稱呼我20號未免也太不近人情了一些。」說著的同時握上了連接兩人的鎖鏈，嘗試將對方拉近自己，縮短兩人之間的距離。<br>「不想知道我的名字嗎？」<br><br>試探對方是否知道自己的姓名，讓他判別自己是不是真的被抓進監獄。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>他微微瞇起雙眼，冷漠的表情總算展現出一點變化。<br><br>「這裡是監獄，不是讓你交朋友的地方。」然而，他卻又只是冷冰冰地這樣回覆。首先順著你的力道湊近你幾步，卻又在下一秒將手向後拉扯，似乎打算讓你失去平衡，反往他的方向前進。「跟我來。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>失去平衡的金沅皓馬上穩住腳步，對紅髮男子的表情變化露出了滿意的笑容。<br>沒有再繼續追問下去，他跟上了守衛的步伐，不像剛剛想拉近兩人的距離，他維持著一定的步距，黑色的眼眸觀察起他經過的每個地方。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>被看守拉著鎖鏈移動，你們來到一間像是餐廳的房間。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這裡的牆壁與先前房間一樣由磚頭砌成，房間中央擺著像是洋館才會出現的長桌、併排放置的椅子，其中幾張椅子已經有人坐在上頭用餐。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「來這裡。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他扯動與你相連的鎖鏈，將你帶到房間角落的一張小桌子前，桌面放著幾個盛有少量食物的白色盤子。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「拿了自己的份之後去坐好。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>來到疑似是餐廳的房間，金沅皓皺起眉頭。<br>盤中的食物對他來說根本稱不上是食物——糊在一坨的豆泥、大小不一的炒蛋，金沅皓自認閉著眼睛煮都比「牢飯」還好吃。<br><br>「一定要吃嗎？我不餓。」轉頭看向後方的守衛，眉心皺起，看起來就很嫌棄的模樣。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>看見你的反應，他也跟著輕蹙眉頭，情緒比起方才還要明顯許多。<br><br>「挑食在這裡可不管用。拿著。」他抬抬下巴，表明不給你選擇的餘地。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>聳聳肩，作為囚犯只有遵從守衛的選項。<br>拿了一份看起來份量最少的食物，黑色的眼眸環顧整間餐廳，尋找著最合適的位置。<br><br>想到用餐時後方有人盯著自己，他就難以下嚥，金沅皓最終選擇了相鄰的兩個位置。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>待你就座後，你的看守也會拿著餐盤坐在旁邊開始用餐。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【可探索的地方：長桌、餐盤、坐在桌邊的人們】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>湯匙舀起豆泥，金沅皓深呼吸後嚥下一口，軟爛口感中未被清除的豆子外皮令他皺起眉頭。<br>幾乎不想再嘗試的他抬起頭看向坐在桌邊的人們，希望不是只有他一個人這樣認為。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>當你查看桌邊，會發現看守、囚犯皆有男有女，所有人都像是習以為常的樣子，將少得可憐的食物送入口中，包含跟你相銬的看守也是如此。<br><br>雖然年齡跟性別都不相同，但可以注意到大家都一樣消瘦，且氣色不佳。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>身邊人們消瘦的模樣或許與餐盤中少得可憐的食物有關，一旁的男子的側臉看似也氣色不好。<br>「你覺得好吃嗎？」視線停駐在餐盤上，他用叉子叉起一塊炒蛋卻沒送入口中。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「⋯⋯不去思考這些事，會過得比較輕鬆。」他瞥了你一眼，似乎是注意到你餐盤上的食物，完全沒有減少的跡象。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你面前的白色盤子感覺已經被使用多次。包含你和你的看守在內，所有人面前放的都是相同的餐點。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【靈感】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=90 &lt;靈感IDEA&gt; (1D100&lt;=90) ＞ 76 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>看守和囚犯會吃一樣的東西嗎。你感到有些疑惑。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「食物很重要，這影響到生活的品質。」意指這裡份量少得可憐的食物與品質影響到所有囚犯與看守的狀態。<br>將叉子上方淺黃色的炒蛋遞到對方的嘴邊，說道：「現在只能分你吃這個，如果放我出去⋯⋯就能給你更好的。」</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「你是要自己吃完，還是要人餵你？」他沒有附和你的提議，一雙眼緊緊地盯著你瞧。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>張開口，在對方緊盯的視線下咬下炒蛋。<br>⋯⋯還是不好吃。<br><br>咀嚼的同時視線繞過面前的男子到長桌的另一端。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>見你乖乖把早餐吃下肚，他才收回視線，把注意力繼續放到面前的餐盤上。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>長桌是厚重感十足的木製品。現在入座的人加上你們的話共有8位，從他們的穿著來看，其他人也跟你們一樣，而看守與囚犯彼此也以手銬相連。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>不經意抬起視線的你，與坐在眼前的男子四目對望。他和你一樣身穿相同的囚服，與隔壁的看守以手銬相連。<br>男子稍微停頓一下後露出笑容，接著主動向你搭話。</dd></dl>
+	<dl class="tc0 nc3"><dt>？</dt><dd>「嘿、你是新來的吧。名字是？」</dd></dl>
+	<dl class="tc0 nc3"><dt>？</dt><dd>「那邊的看守也是新人啊。能畢業真好呢？」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他咧嘴一笑，看向坐在你身旁的看守，但他沉默不語，連眼神都沒有跟他相交。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>端起友善的微笑，他將注意力放到面前的囚犯身上，那人身著的顯眼亮橘色與自己無異。<br>「我叫做金。」沒有報上自己的全名，金沅皓在舀起盤中的食物送入口中，嚥下後才再次開口：「畢業？什麼意思？」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>正當他打算開口回應你時，突然整個房間響起了刺耳的鈴聲。「叮鈴鈴鈴」、「叮鈴鈴鈴」尖銳地響了兩次。<br></dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你的看守一聽見鈴聲便微微皺起眉頭，他解開自己手腕上的手銬，將它重新銬在長桌的桌腳，接著對你說道。</dd></dl>
+	<dl class="tc0 nc2"><dt>？</dt><dd>「這是召集。好好待著，我待會就回來。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這麼說完之後，他沒有等待你的回應，直接離開了餐廳。同桌的其他看守也同樣留下囚犯，跟著離開房間。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>看守們離開以後，原先與你對話的囚犯重新對你説道。</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「剛剛說到哪了⋯⋯噢對了，我是萊頓・達西。」<br><br>「你身旁的看守啊，原本跟我一樣是這邊的人哦。前幾天還以為他突然不見，結果今天就變成看守回來了。」</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「也就是說，立場是會改變的。就算是我們這種被抓住的人，順利的話也能到那一邊去。那樣的話，生活多少能過得好一點吧？」他戳了戳盤子裡所剩無幾的食物。<br><br>「聽說看守可以自由出入，甚至還有單人房間呢。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>在聽見對方介紹姓名時微微點頭以示禮貌。<br><br>「你有印象自己是如何進來這裡的嗎？」<br>「還有，那位看守在當囚犯時也如此沈默嗎？」總覺得跟當時在案發現場看見的模樣不太一樣，而且聯邦調查局探員變成監獄的看守也是很奇怪的調職方式。</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「怎麼進來的⋯⋯在這之前就普通的生活啊。去大學、打工，某一天突然就被帶到這裡來了，算一算也待了快三個星期了吧，你不也一樣嗎？」</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「那個人喔？感覺跟現在不太一樣吧⋯⋯之前有種更難接近的氣場。我進來的時候他就已經是囚犯了，平時因為看守們都在旁邊，所以也沒辦法跟他聊些什麼。」他抓了抓頭。<br><br>「啊，不過我知道他叫亞伯。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>聞言，他點點頭。回想在牢房裡甦醒前的記憶，金沅皓正在做日常的事情。<br><br>「亞伯。」薄唇微張重複了那幾個音節，得知了自己看守的姓名，他再次露出笑容。<br>「萊頓，你有聽說有人從這出去過嗎？」</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>他搖了搖頭，「但我有一個推測。既然囚犯會變成看守，那就代表那些不見的看守已經出去了吧？」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>交談一會兒之後，你聽見門口的方向傳來看守們回來的腳步聲。聽到動靜的萊頓趕緊低聲向你說道。</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「嘿、我給你一個忠告。在這裡討好看守是沒有用的，那些傢伙根本沒有人心。」他用手指了指看守們離開的方向。</dd></dl>
+	<dl class="tc0 nc4"><dt>萊頓・達西</dt><dd>「但是、恩⋯⋯還是老實地順從他們比較好。這樣既能少吃點苦頭，也能提高去『那邊』的機率。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他這麼說完後，露出了有些狡詐的笑容。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「那麼想出去只能一起變成看守吧。」對萊頓的推測感到不確定，只能短短回了這句。<br><br>沒有人心。金沅皓回想起名為亞伯的男子黯淡無光的眼神，把對方的忠告放在心上。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在你說完的瞬間，回來的亞伯重新把手銬銬回自己的手腕上，接著注意到你幾乎沒動的餐盤而蹙了蹙眉頭。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他站在你身旁，命令一般地向你說道。<br><br>「吃完。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「先換個好廚師我在考慮。」將餐盤推向對方，不打算繼續吃。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯別怪我沒警告你。」在其他看守陸續將自己的囚犯帶離現場時，他也使力將你從座位上拉起，打算帶你回到原來的牢房。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「悉聽尊便，先生。」被從座位上拉起，金沅皓維持著笑容。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你們走回剛剛的走廊，回到自己的牢房前。看守接著將你用力推入牢房中，並解開了你與他手腕上的手銬。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「下午開始工作，在那之前是自由時間。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他留下這句話後鎖上鐵門，接著便離開了這裡。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>重新環顧房間的話，可以發現地板是老舊的木板，擺放的物品非常地少。房間的高處設有小窗戶，同樣嵌有鐵欄杆，室內還設有屏風，另一側似乎是洗手間。<br><br>【可探索的地方：鐵欄杆（門）、桌子、窗戶、洗手間】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>還有更多話想問的他來不及抓住亞伯，只能看著他離去的背影。<br>瞇起黑眸，指尖攀上眼前的鐵欄杆，思索著是否能夠破壞。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>門被鎖頭鎖著。鐵柵欄後方是一條狹窄的走廊，設有一個擺著油燈的小桌子和圓椅。<br><br>環顧左右的話，可以知道走廊右側有一扇門，正是你前往餐廳時的出入口，左側有與牢房並排的另一個房間，房門不是鐵欄杆，而是木門。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>先是望向左側並排的木門房間，希望能看到亞伯去何處。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>隨著房門開啟、闔上，以及消失的腳步聲，你能推測亞伯進入了木門後的房間。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>在確認了亞伯進入到隔壁房間後視線轉向走廊上的桌椅，想必那是看守們執勤時用的吧。<br><br>往後退了幾步決定先看看這間房間有什麼，先來到了桌子邊。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你來到的桌子邊。這是一張像是日式矮桌的小桌，角落有像是被隨手寫上的文字。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>「好痛好難受 我不想死」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>十分扭曲的文字讓你有點毛骨悚然。【SANc 0/1】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=60 SAN (1D100&lt;=60) ＞ 5 ＞ 決定性的成功/特殊</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>撫過桌面，灰塵殘留在指尖上方，瞇起眼睛看向桌面上的字跡後冷哼一聲。<br>「會讓獵物說這種話的人，真不是個好獵人。」<br><br>隨後往窗戶的方向走去，希望能看到外面的情況。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>查看外頭的你，可以知道窗外是森林。就算拆掉鐵欄杆，窗戶本身的大小也不足以讓一個人通過。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 60 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你發現鐵欄杆相當老舊，其中一根已經嚴重生鏽。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯嘖。」想到要碰腐蝕的鐵鏽有些心不甘情不願，但金沅皓還是嘗試拉扯那根欄杆。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>〈STR*5〉</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=14*5 &lt;STR*5&gt; (1D100&lt;=70) ＞ 90 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 1 → 0</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你強忍著鐵鏽沾附自己的肌膚，成功拆下一根金屬棒。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【金屬棒】<br>金屬棒長約20～30公分，姑且可以作為【小型棍棒】使用，但因為鏽蝕嚴重，作為武器的耐久度很低。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>朝空中甩了甩那根鐵棒，低聲說道：「還堪用吧。」<br>只是沒有刀刃來的親密。<br><br>將拆下來的鐵桿藏到床底下後，前往洗手間想要清潔雙手。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>洗手間意外地打掃得很乾淨。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 34 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你注意到屏風後方、從外面看不到的位置，有一塊地板微微浮起。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>在洗手前發現到異常之處，打開水龍頭任由其流出，在流水聲響的掩護下嘗試拆開那塊地板。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你輕易地取下這塊地板，發現下方狹小的空間裡，藏著一本小小的筆記本。似乎是某人留下的紀錄。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【洗手間隱藏的筆記】<br>「感覺已經死了好多次。腦袋變得好奇怪，好想快點離開這裡。好想見爸爸和媽媽。<br>那孩子和我，有什麼不同嗎。<br>我明明沒有做任何壞事。快點讓我回去。誰快來，拜託了」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>閱讀上方所撰寫的文字，筆記本的主人在最後看來感到十分的驚恐，為此感到有些惋惜的他把筆記一同藏到床底下，隨後將地板裝回原位後認真的把手洗乾淨後回床上坐著。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>當太陽高懸天際時，尖銳的鈴聲再次響起。而你的看守又一次機械式地將你帶去餐廳，你也只能像先前一樣，在那裡跟午餐乾瞪眼吧。<br><br>只是這次，你的看守稍微強硬地讓你多吃了幾口。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>飯後，亞伯會拉著你的鎖鏈說：「工作的時間到了。」接著帶你穿越走廊，前往並非牢房的另一個房間。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>打開沉重的鐵門，會發現這裡是一間奇怪的房間，中央固定著一張鐵製的椅子，除此之外只有一台金屬製的置物手推車。<br><br>椅子的扶手與腳邊垂掛著好幾條鎖鏈，一看就知道是用來拘束人的器具，讓你產生不好的預感。【SANc 0/1】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=60 SAN (1D100&lt;=60) ＞ 37 ＞ 成功</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「坐下。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>中央的座椅令他皺起眉頭。<br>「我可沒有這樣的興趣。」轉頭看向身旁的看守，沒有要坐下的意思。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「囚犯沒有拒絕的餘地。」他將手搭上你的肩膀，毫不猶豫地將你往後推，打算讓你退到椅子旁。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>在亞伯的手搭上自己的肩膀時握住他的手腕，出力讓他的動作無法順利的將自己推到椅子上，考量到對方聯邦調查局探員的身份，擔心自己身份洩漏的金沅皓也沒有使出全力。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 2 ＞ 決定性的成功/特殊</dd></dl>
+	<p class="tc3 tab"><span>紀錄</span></p>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd>偵查大成功</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯為了將你推到椅子上，漸漸加大力道，而你也回以同樣的力氣反擊。過程中，你不小心抓住了他的衣服，而就在那瞬間，看見隱藏在衣服底下的頸部，有紅色點狀的痕跡。<br><br>具備醫師敏銳的直覺，你能知道那是注射痕跡。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>雙手一同扶上了亞伯的肩膀，在拉扯的過程中注意到了對方脖頸處佈滿的紅點——那是注射藥物的痕跡。<br><br>「⋯⋯」無聲的加重力道，嘗試把亞伯推向座椅。如果能先固定住他或許就能查出注射的東西是什麼。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>s1d2 (1D2) ＞ 1</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>亞伯因為這股推力向後踉蹌兩步、抵到了座椅邊，意識到身後正是拘束用的椅子時，他在一瞬間露出冷笑。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>緊接著，他猛然彎腰撲進你的懷裡，用著不知道從哪來的力量將你整個人抬起、懸空，接著倒在拘束椅上。趁著你的視角天旋地轉，他立刻就拘束了你的四肢，動作行雲流水。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯別亂動。不過，就算亂動也沒用了。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>拘束你的看守，從金屬推車上拿起了某樣東西。那個是裝滿透明液體的注射器。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>看守流暢的將自己摔到拘束椅上，在沒來得及反擊前四肢就被固定住。<br>平日裡手持注射器的是他、壓制住獵物的也是他，這是金沅皓第一次被箝制，這也讓他對眼前的男子提起了興趣。<br><br>被拘束住的金沅皓也沒有掙扎，只是瞇起眼睛等待著對方下一步的動作。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他緩緩走近你，對你不予掙扎的模樣瞇起雙眼，然後把針筒內的液體打進了你的手臂。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>POT對抗，請骰resb(16-13)</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">resb(16-13) (1d100&lt;=65) ＞ 89 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>施打藥物數分鐘後，你的身體開始產生變化。<br>肺部彷彿被灼燒一般，呼吸變得相當困難，明明睜著雙眼，視野卻逐漸昏暗。全身的劇痛緊接著襲來，痛苦得令你想打滾，卻因為被束縛在椅子上，所以連這點都無法如願。<br><br>說不定真的會死，你痛苦地這麼想著。【SANc 1/1d3】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=60 SAN (1D100&lt;=60) ＞ 51 ＞ 成功</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] SAN : 60 → 59</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>HP-13</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] HP : 16 → 3</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>眼看著針頭插入自己的手臂內，他在內心計時著藥效發揮的時間，隨著時間一分一秒的過去，疼痛攀附上他的全身，正想大口呼吸緩解時卻發現每當吸入一口氣，肺部又將所有的空氣擠出，他的胸口上劇烈起伏著。<br>四肢扯動拘束著自己的皮具，咬著牙強忍著不發出哀嚎，卻難以抑制急促的呼吸。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>光是抑制喊叫，就幾乎花費了你所有的力氣，強烈的痛苦使你勉強維持數秒的意識，隨後立刻昏厥。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>睜開雙眼時，你已經回到了先前的單人牢房。身體異常沉重，就連坐起身都覺得費力。<br>似乎已經入夜的關係，房間一片昏暗，只有放置在鐵欄杆外的燈散發著光芒。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯坐在走廊的椅子上，察覺到你醒來之後，便立刻起身走近鐵欄杆。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「醒了嗎⋯⋯身體感覺如何？」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>疲倦的身體讓金覺得這比連續值班20小時還痛苦。<br>沒有力氣走向鐵欄杆，金沅皓撐著床鋪撥弄著細軟的黑髮打理整齊，黑眸瞇起。<br><br>「你也打過這藥劑吧？你來告訴我如何。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯還能起床跟回嘴，看來是還撐得過去。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他淡然地確認你的身體狀況後，從桌上拿起白色的盤子跟小瓶子，遞進了牢房內。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「這是晚餐和營養劑⋯⋯你明天也有同樣的任務，有食慾的話就盡量吃吧。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>如果查看盤子，可以看見裡面盛著跟早餐一樣簡樸的餐點。小瓶子大約是手掌大小，裡面裝著無色透明的液體。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「但沒力氣吃飯。」站起身時腳步有些踉蹌，他很快地又穩住，拖著沈重的腳步朝欄杆的方向走去。<br>接過了餐盤與營養劑，金沅皓在火光下晃動那一瓶無色的液體。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【藥劑學】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=41 &lt;藥劑學&gt; (1D100&lt;=41) ＞ 41 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你可以得知它的確是營養劑，對人體無害。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他緊緊地注視著你，語氣卻依舊冰冷。「⋯⋯那至少把營養劑喝了。喝完就趕快休息。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「知道了。」扭開瓶蓋，將透明的液體一飲而盡。<br><br>「先生也要休息了嗎？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>確認營養劑被順利喝完，他才總算移開視線，向後退離欄杆。微弱的燈光已經照映不到他的臉部，無法確認他的表情，他更是伸手壓下帽沿。<br><br>「恩。」這麼回應後，他轉身前往隔壁的房間。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「喂，等等。」手握上欄杆，喊住對方。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>聽見你的呼喚，亞伯止住腳步、稍微側過身，似乎正望著這邊。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「相處了一整天，還是不告訴我你的名字嗎？」<br>「那我只好從字首是A的字母開始猜了⋯⋯艾倫（Allen）？安德魯（Andrew）？亞當（Adam）⋯⋯紅土色的大地或許跟你的模樣有些相稱。」於此同時將頭部靠上欄杆，觀察著陰暗處帽簷下的表情，「亞當，傳說中上帝創造的第一個人，這讓人也不免想到他的孩子——亞伯。」<br><br>「你叫亞伯，對吧。」試探性的詢問道，在經歷過那藥物的作用後，金沅皓不確定那藥物能改變人類心智到何種程度。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他的身子與陰影融合，一動也不動地，即使被說中姓名也毫無變化。<br><br>「⋯⋯我只是這裡的看守罷了。」短暫地停頓，他的語氣依舊冷漠、無情，讓人難以分辨現在到底是什麼樣的表情。至少他還願意待在原處回應。<br><br>「快睡吧。你需要的是這個。」這次他再也沒有回頭，回到了房間中。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>走廊裡恢復靜默，金沅皓鬆開握著鐵欄杆的手，在回到床鋪前清潔雙手，隨後躺到那稱不上是舒適的床上。<br>回想今天發生的所有事情，他能確定的是這裡並不是他認知中的州立看守所，而是一間詭異的監獄。<br>思索了一會，他閉起雙眸，開始嘗試入睡。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>隔天早晨。金回復6HP。</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] HP : 3 → 9</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>再次地、尖銳的鈴聲將你的意識喚醒，就像是被巨大的音量狠狠往臉側揍了一拳。<br>看樣子你睡得相當沉，連夢都沒做。只是身體還沒完全回復，身體相當沉重，呼吸也有些不順。<br><br>如果起身的話，會發現枕邊已經放著一套新的衣物。而昨天沒吃的晚餐，以及空瓶子已經被收走了。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>疲倦包裹全身，他很快的睡去，再次睜眼時是震耳欲聾的鈴聲。金沅皓坐在床邊活動筋骨，舒緩緊繃的肌肉，隨後脫去昨日穿著的衣物，再次換上新的囚服。<br>將棉被與舊衣物摺成像是豆腐般工整，等待著看守前來。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>過了一會兒後，隔壁房間的方向傳來喀噠喀噠的腳步聲，接著亞伯便出現了。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「把手伸出欄杆，接下來是早餐時間。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>一樣的命令、一樣的動作。他就像個無情的人偶為你銬上手銬，接著帶往餐廳。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你如同昨日一樣被亞伯帶往餐廳，拿了餐盤之後入座。<br>環顧四周時，你會察覺到座位上的人數減少了。<br><br>仔細一看，昨天主動跟你搭話、自稱萊頓的男子不見蹤影，昨天在他身旁的看守也是。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>餐盤上方的食物賣相一樣看起來不怎麼樣。<br>從昨日到現在幾乎沒什麼進食的金沅皓知道自己不能不吃，表情嫌棄的將食物慢慢地送進口中。<br><br>注意到長桌上的人減少了，昨日那位名為萊頓的青年也沒有出現。<br>「這間監獄還有假釋名額啊。」對著一旁的看守這麼說著。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他看了你一眼，接著冷冷地回應一句，「⋯⋯他已經死了。」顯然清楚你指的是什麼。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>體驗過昨日那詭異的藥品，對他人死亡的結果並不感到意外，萊頓昨日說的消失是離開的推測看來是錯誤的。<br>「⋯⋯是昨日注射的藥物造成的嗎？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯他跟你做了一樣的『工作』，但沒撐過去。」他看了看對面的空位，緊接著把注意力放回自己的餐盤上。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「那你的同事呢？」指的是原本待在萊頓身邊的那位看守。<br></dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「他不重視自己的職責，所以任期已經結束了。」回答得不明不白。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「職責？你指的是為我們上銬、施打藥劑、這樣無趣重複的日常？」<br>亞伯的回答讓金沅皓認為他們看守彼此是有互相交流的，放下餐具拉近他們彼此之間的距離，像是不想讓人聽見他們的交談般在亞伯的耳側低聲說道：「如果你不履行你的職責，會發生什麼事？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「身為囚犯的你有知道的必要嗎？」他側過身子，讓臉正面對著你，即使在如此近的距離之下，他的眼神依舊是黯淡無光、毫無變化。<br><br>「現在的你，該做的就是把早餐好好吃完。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯無趣。」面對毫無光彩的紅色眼眸，金沅皓做出結論，隨後繼續享用起餐盤內的食物，這次倒是有好好的吃完。<br></dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>早餐時間就在這樣的沉默之下結束了。看守們接著會將自己的囚犯各自帶回牢房。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>回到牢房後，亞伯會解開你的手銬，然後再次把門關好、鎖上。<br>他緊接著走向隔壁房間，拿著活頁夾回來之後，坐到了鐵欄杆前的椅子上。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯在今天的工作之前，我要問你幾個問題。最好老實回答。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「首先，你的姓名。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「金。」只回答了一個單音節，似乎沒有講出全名的打算。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>按下筆蓋、在紙本上書寫，似乎不打算追問你的全名。<br><br>「接下來，你的年齡。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯二十九歲。」多謊報了兩歲，試探對方是否知道自己身分證明上的真實年齡。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他抬頭看了你一眼，「還真看不出來。」接著在紙上書寫什麼之後，很快又抬起頭。<br><br>「職業。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>看來對方不知道自己的真實資料。<br><br>雙手環抱在胸口，肩膀靠著鐵欄杆後揚起笑容：「你猜猜看？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「我沒有興致跟你玩猜謎遊戲。」用手指敲了敲板子，他冷淡地回應。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>笑而不答的看著對方。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯聽著，我勸你老實回答。別惹上麻煩。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「你們口中的『麻煩』究竟是什麼，我很想看看。」沒被銬住的指尖穿過欄杆嘗試觸碰對方。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯看來昨天還不足以給你教訓。」他將手伸進胸前的口袋，掏出了一小瓶透明無色的液體。<br><br>「雖然這個不像昨天的工作內容，但也足夠讓你說出真相。」他將瓶子放到一旁的桌上。「現在，告訴我你的職業。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>看著亞伯從口袋中拿出的小藥瓶，金沅皓大致能猜測出那是與昨日「工作」同樣的藥劑，只是劑量比較小，考量到逃脫出去的機會，還是保留適當的體力比較好。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「聯邦調查局幹員。」說出口的分明是對方真實的職業。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯」他沒有動筆，只是挑了挑眉，無聲地看著你的臉龐，彷彿在問「你確定？」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「沒見過聯邦調查局出現亞洲人？」反問對方之後微微一笑，不再開玩笑的他說出了真實的職業：「我是醫生。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>眼皮連眨也沒眨，他安靜地寫下你的答覆，並重新開口。「下一個，血型。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「AB型。」在這件事情上沒什麼好說謊的。<br>在這種做人體實驗的地方需要知道血型也沒什麼好意外的。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>迅速地寫下回覆。「家庭成員。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「沒有。」幾乎是想都沒想的就說出答覆。<br>「或者該說、我不知道。」<br></dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>動作短暫地停頓了下，他緊接著才寫下這個答案。<br><br>「⋯⋯那你想找到他們嗎？」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>看守的提問讓金沅皓一愣，隨後他低頭笑出聲，再次抬頭語氣肯定的答覆：「不會。」<br><br>「對我來說，他們沒有多特別。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他沉默了一下，這個答案並沒有被他寫在紙上。<br><br>「⋯⋯下一題。如果能離開這裡，你想做什麼事。」他抬眼看向你。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>如果能從這裡出去，我會製造更多的屍體與命案現場，在犯罪現場留下只有你能發現的證據，讓你慢慢地靠近我——如果你有足夠本事的話。<br><br>「我想好好洗個澡、睡個覺。」想當然，他沒有把自己的真心話說出口。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他似乎沒有發現你藏得過深的心思與身份，只是微微頷首，將這個書寫下來。<br><br>「最後，你害怕死亡嗎。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>不管是作為外科醫生還是連續殺人犯，時常左右生死的他在奪取性命時掌控他人的慾望被滿足，他從中彰顯自己所擁有的權力。<br><br>「只要是生物，生命都有盡頭。我認為，對死亡的恐懼能驅動人類進化，從中激發出可能性。」<br>「你呢？你害怕死亡嗎？」沒有正面回答問題，反問對方。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「作為醫師，這番話還真不近人情。」但由語氣冰冷的他說出來，感覺更顯弔詭。沒有回應你的提問，書寫聲持續一會兒後停止了。<br><br>「⋯⋯該工作了，走吧。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>本想回頭去拿水管當作武器的想法只能作罷，金沅皓乖巧地伸出手到欄杆外等待冰涼的金屬質感貼上自己。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯無情地重新銬住你，接著將你帶往處置室。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>來到昨日的房間，配置似乎一模一樣。<br><br>在開門的瞬間，他決定去查看手推車上的藥劑，無視了與亞伯之間連結的鎖鏈，大力將對方扯過來嘗試讓對方跌倒的同時奔向那台手推車。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯沒料到你會突然往前衝，一時之間失去平衡往前踉蹌，而你在這瞬間來到了手推車旁。<br><br>【偵查】&amp;【藥劑學】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 4 ＞ 決定性的成功/特殊</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=41 &lt;藥劑學&gt; (1D100&lt;=41) ＞ 1 ＞ 決定性的成功/特殊</dd></dl>
+	<p class="tc3 tab"><span>紀錄</span></p>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd>偵查大成功</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 0 → 2</dd></dl>
+	<p class="tc3 tab"><span>紀錄</span></p>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd>藥劑學大成功</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在這一瞬間的空檔，你敏銳的目光與判斷力，立刻讓自己找到放到手推車上的透明液體，也就是昨天打在你身上的藥劑。但，那是你至今以來從未見過的藥品，自然無從分析作用到底為何。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>與此同時，在你身後的亞伯早已站穩了身子，二話不說將你推到了拘束椅上。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「你還真是讓我費盡心力。」冰冷的鎖鏈觸碰到你的手腳，或許會讓你不禁一顫吧。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯很快拿起裝滿透明液體的注射器，你會做好再次感受昨天痛苦的覺悟吧。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>然而亞伯只是拿著注射器，凝視片刻後微微瞇起雙眼，接著視線移向手中的板子，露出正在思考什麼的表情。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯搞錯了，在這裡等著。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他喃喃說完後，帶著活頁夾與注射器離開了房間。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>握緊拳頭等待著注射器刺入自己的身體，卻沒感受到那股刺痛。<br>亞伯喃喃自語後步出房間，金沅皓沒有開口詢問要去哪，只是在確認門關上之後嘗試掙脫拘束。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【STR*2】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=14*2 &lt;STR*2&gt; (1D100&lt;=28) ＞ 79 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯該死。」掙扎許久逃脫失敗的他忍不住罵出口。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>拘束器相當穩固，憑你現在的力量沒辦法掙脫。而亞伯也很快就回來了，手上依舊拿著注射器與活頁夾。<br><br>這次他沒有表現出任何猶豫，舉起針筒走到了你的身旁。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「別動。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>他拉開你的衣袖、露出手臂，接著將針頭刺入皮膚，打入注射器中的液體。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 65 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在被注射的前一瞬間，你注意到針筒內的液體量比剛才的還要少。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【CON*5】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=15*5 &lt;CON*5&gt; (1D100&lt;=75) ＞ 29 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>被施打藥劑的你，感受熟悉的倦怠感侵襲而來。腦袋一陣暈眩，呼吸也變得有點不順。<br>但過了一會兒就會注意到，身體並不像昨天那樣疼痛，意識也沒有要斷線的感覺。<br><br>在視線邊緣，可以看到亞伯在手中的活頁夾上書寫著什麼。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【POW*5】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>尖端刺入身體，他閉起眼睛等待著藥效發作，疼痛並未向昨日一樣席捲全身，些微的倦怠感加重呼吸的起伏，不知道是藥劑減少還是產生抗藥性的緣故。<br>注意到亞伯在紙張上撰寫著什麼，金沅皓想看仔細上方的文字。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=12*5 &lt;POW*5&gt; (1D100&lt;=60) ＞ 22 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>因為被拘束的關係，這個角度無法順利看見紙上寫了什麼。但是，你突然察覺到一股違和感。有種說不上來的不安。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>若迅速掃視四周，會發現一直緊閉的門扉微微敞開了。<br><br>在那扇門的另一側，有誰正在注視著這邊，用毫無感情的雙眼直直觀察著。<br>這種令人毛骨悚然的感覺【SANc 0/1】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=59 SAN (1D100&lt;=59) ＞ 78 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] SAN : 59 → 58</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>感覺有什麼人在偷看啊⋯⋯<br>這麼想的同時抵抗著藥物帶給自己的不適感，開口問道亞伯：「你⋯⋯為什麼給我的⋯⋯藥量比較⋯⋯少？」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【靈感】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=90 &lt;靈感IDEA&gt; (1D100&lt;=90) ＞ 54 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>儘管不適，你仍注意到那個視線突然微妙地避開了你。你可能會覺得，對方或許並非注視著自己，而是看向自己身旁的某個東西。<br><br>當你轉頭看向亞伯時，便會發現他盯著門的方向，整個人僵在原地。他的臉色一片蒼白，看起來就像是害怕著什麼。<br>緊接著，門後的人影很快便消失無蹤。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>金沅皓意識到那視線並不是在看自己，而是在看他身邊的其他東西——整間房間裡只有他與亞伯兩個人。<br>平日裡幾乎沒什麼反應的亞伯這時面色蒼白，像是懼怕門外的事物，金開口問道：「⋯⋯那是、什麼？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯」他沒有回應你，甚至連視線都沒有與你對上。就只是低著頭，望著手裡的板子，緩慢地繼續寫著什麼。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這次，雖然你的身體狀況不佳，但仍能夠說話與行走。記錄結束後，亞伯會默默解開你的拘束，將你帶回牢房。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>回到牢房後，亞伯一如往常地將你關進籠中。他仔細地上鎖後，將鑰匙收進自己的口袋裡。<br><br>原以為他會直接離開，卻不知為何站在牢房前動也不動。他低垂著頭，讓人看不清他的表情。<br>過了一會兒後，他才像是自言自語一般，悄聲說道。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯身體還好嗎？有比昨天好一點嗎。你今天撿回一條命了，大概是因為藥效比昨天還要弱。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「但是，明天你搞不好就會死。」<br><br>「⋯⋯說不定我也是。」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「我不是你的敵人，但也不是你的同伴。」他緩了一下後繼續說道。<br><br>「你能依靠的只有你自己。這裡沒有任何希望。好好記住這一點。」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯平淡地喃喃說著，接著立刻走向隔壁的房間。離開之前，他把手中的燈放到了走廊的桌子上。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>比昨日還要更多的關心讓金沅皓產生了這是亞伯真實性格錯覺，只是那雙紅色的眼眸一樣沒有光彩，他能感受出這是面前的「亞伯」給予的善意提醒。<br>點點頭示意自己知道，考量到剛剛門外詭異的視線，今晚沒有再嘗試挽留對方。<br><br>金沅皓將視線停留在走廊的桌子跟燈上。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>桌子只擺了亞伯留下的提燈，黃光微微地照亮桌面。隨著隔壁房門的闔上，走廊又恢復原先的靜謐。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>四處在房間看看有沒有可以逃脫出去的辦法。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>房間一如既往，眼下能通往外面的只有窗戶與鐵門。但窗戶的大小無法使你通過，鐵門也上了鎖。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>拿出藏在床底下的金屬棒到門鎖邊，思索著有什麼辦法能逃脫出去。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【鎖匠】或物理破壞</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=1&lt;鎖匠&gt;</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=1 &lt;鎖匠&gt; (1D100&lt;=1) ＞ 57 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>嘗試徒手破壞門鎖。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=50 &lt;拳/鬥毆&gt; (1D100&lt;=50) ＞ 11 ＞ 成功</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d3+1d4 (1D3+1D4) ＞ 2[2]+3[3] ＞ 5</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>隨著一聲巨響，你用力打壞了門鎖，鐵鏽也因此沾染上你泛紅的指節。<br><br>然而，你的動靜也迴盪在整條走廊上，隔壁房門被迅速打開，亞伯跑到了你的牢房前，臉上一臉疲憊。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯」看著碎裂開來的門鎖，他挑了挑眉。似乎在無聲地指責你。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd></dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>不顧腐朽的鐵屑是否會刺入自己的手中，金沅皓大力敲打著門鎖，知道如此大的聲響會驚動隔壁房的人，在亞伯跑到自己面前時也沒有感到太意外。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>沒有主動的攻擊，對方只是沈默的盯著門鎖，金沅皓同樣也挑起眉毛，朝著對方伸出指節泛紅的那隻手。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>他沒有接住你的手，只是站在原地冷冷地道。「回去躺好。你會惹來麻煩的。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯你說我明天就可能會死，我能不逃跑嗎？」面前的看守似乎沒有要放自己出去的意思，貿然踏出去的話可能又會像昨日一樣被壓制。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「但我依舊是看守，你也仍是囚犯。」他無情地道。<br><br>「退後。如果你不想現在就吃苦頭的話。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯」看來行不通。<br><br>舉起雙手像是被威嚇的犯人，退回到自己的床邊。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>抓準時機拿下破破爛爛的門鎖後，他拿出你熟悉不已的手銬，踏入到牢房中，迅速地將你與鐵欄杆銬在了一起。<br><br>限制住你的行動後，他將沒有用處的門鎖又掛回原處，闔上鐵門，打算再次回到房間。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯用這種東西把我銬住，還不如整晚在這盯著我。」朝著離去的背影說出威嚇性的發言：「小心我又跑掉喔。」<br><br>雖然這麼說著，實際上金沅皓因為藥效疲憊不堪，沒有再嘗試逃脫，而是脫去身上的囚服，決定去洗手台邊擦個澡。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯沒有理會你的威脅，只是拖著疲憊的步伐回到房中。手銬的長度足夠到洗手間，你能順利地擦澡，做完這些瑣碎的事情，你感覺眼皮越來越沉重。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>擦完澡的金沅皓套回睡衣，倒回了床舖上。<br>「⋯⋯真沒想到哪天會被抓啊。」如果真的能出去是不是該金盆洗手不幹了呢？<br><br>沈思的過成眼皮越來越沈重，最後陷入了睡夢中。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你閉上雙眼。雖然不像昨天那麼痛苦，但果然還是消耗了不少體力了吧，睡意很快就侵襲而上。<br>你的意識隨之漸漸遠去。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>⋯⋯</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>突然、一陣巨響讓你從睡夢中甦醒。<br>那並不是會令人頭痛的鈴聲，而是像玻璃碎裂般的聲音。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>抬頭一看的話，會發現放在走廊的燈已經不見了。漆黑之中，你能隱約看到有好幾個人正拖著一人的身體，想把他帶走。<br><br>在「給我安分點」之類的喝斥聲中，夾雜著一個你熟悉的聲嗓。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯放開我、我還沒⋯⋯！」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>那毫無疑問，是你看守的聲音。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在你聽見後，他的聲音緊接著變成了被悶住的怒吼，淪為聽不清意思的模糊聲響。<br>幾名男子就這樣拖著仍在掙扎的他，消失在右側的門之後。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【聆聽】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;聆聽&gt; (1D100&lt;=70) ＞ 57 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在他們離去時，你聽見匆忙的腳步聲之中，有一聲「鏘」的細微金屬音。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>玻璃破碎的聲響讓金聯想到桌面上的燈，在聽見亞伯的聲音混在人群中，金沅皓沒有馬上起身，而是在人群進入一旁的房門後才趕去欄杆邊查看。<br>他剛剛聽見了金屬掉落的聲音，想找出那是什麼。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>腳步聲遠去後，你的雙眼逐漸適應了黑暗。透過鐵欄杆往外看的話，能看見破掉的燈具碎片散落一地。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 56 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在右側的門附近，有個與燈具碎片不同的小物品在地上。位置剛好在伸手也碰不到的距離。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「！」見到其中有個金屬物品，聯想到亞伯離去前收入口袋中的鑰匙，金沅皓拿著鏽蝕的金屬棒想要把那東西撈過來。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你成功用金屬棒將那個東西勾了過來。那是兩把鑰匙，其中一把帶有標籤。木製的標籤刻著潦草的「A」字。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>拿起鑰匙，嘗試著用沒有標籤的那把打開手銬。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你成功打開了手銬。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>撕下橘色衣物的一角，將布料纏上一其中一塊碎玻璃當作防身用具，另一隻手持著金屬棒。<br>門鎖在稍早已被他破壞，輕鬆的推開門跨出牢房，視線轉向處置室的方向，似乎打算去拿那特殊的藥品。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>想前往處置室，就必須往他們一行人消失的方向、也就是右側的門前進。<br><br>【聆聽】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;聆聽&gt; (1D100&lt;=70) ＞ 65 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你會發現他們腳步聲仍然很近，看來仍逗留在附近。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>剛剛聽見不少聲音，想必有不少的人在那。<br><br>跨出牢房後的金沅皓有些好奇左邊的木門有什麼，轉而往那扇門的方向走去，離去前還不忘把牢房的門帶上掛好鎖。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你轉而前往左側的房間，門沒有上鎖，能輕易打開。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>直接開門進入。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>雖然一片漆黑，但稍微習慣黑暗的雙眼，仍能大概辨識出房間的構造。<br>這是一間磚造房間，只有很小一扇窗戶，擺有一張桌子、椅子跟衣櫃。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>與牢房並排的房間，窗戶外的風景想必也跟自己看到的一樣，金沅皓先往桌子邊走去，想確認亞伯是否在這生活。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>桌上放著一盞燈、活頁夾與地圖。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>打開桌面上的燈，閱讀活頁夾上方的文字。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>打開活頁夾的話，會發現裡面夾著約兩張紙。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【A休息室中的檔案】<br>第一張紙寫著「實驗步驟 20號專用」。<br>1.在看守樓研究室領取藥劑，將囚犯帶去處置室，接著拘束他。<br>2.對囚犯施打藥劑，並觀察、記錄施打後的狀態。<br>3.紀錄需要在隔天早上確認後歸還。並在歸還的紀錄後方接續填寫隔天的記錄。<br>備註：本日需要同步搜集實驗用的個人資料，並送交至研究室。<br><br>第二張紙寫著「20號 實驗紀錄」，上面有著手寫文字。內容主要記錄你的行動與身體狀況。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>閱讀完上方的文字後在閱讀地圖。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>地圖主要分作兩個區域，上面同樣標有手寫的文字。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>將活頁夾上的紙和地圖攤平在桌面上方，隨後走到衣櫃旁打開。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這是內側附有鏡子的衣櫃。裡面掛著幾套看守用的制服，看起來就跟亞伯穿的一模一樣。<br><br>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 39 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你在衣服的縫隙間，發現一本陳舊的筆記本。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>拿出衣物中間的那本筆記本。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>當你翻開筆記本，會發現裡面手寫著密密麻麻的文字。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【A休息室中的筆記本】<br>我的記憶已經開始混亂。為了不要忘記，我得把這些事寫下來。如果能幫上誰的忙就好了。<br>我待在這裡幾乎快一個月，跟這些被關起來的人，在這段期間每天都被注射藥物，有好幾個囚犯因此死去。<br><br>我之所以還活著，恐怕只是因為運氣好吧。<br><br>昨天，那個穿著長袍的男人對我說「已經可以了」，對我注射某種藥物，接著我就變成了看守。<br>恐怕那個淡黃色的藥藏著什麼秘密。我終於知道，為什麼當上看守的人都不會逃跑了。<br><br>新的囚犯來了。我見過他。好像是⋯⋯調查文森女士的事情時，看過他的臉。<br>難道這裡發生的一切，都跟那件事有所關聯嗎？但是，這個男人並沒有在名單上。<br><br>現在已經來不及思考了。很快就輪到我給人打藥。我覺得毛骨悚然，他可能隨時都會死去。<br>我不想讓這種事發生。<br><br>這次的藥效太強了。萊頓死了。又死了一個人。<br>他死去也是遲早的事。<br>我沒辦法給他幫助，無法傷害我自己，又或是大鬧一場。<br><br>今天的藥跟昨天的一樣。<br>如果直接注射的話，金一定會死。<br><br>我想到一個方法。<br>就算只是很快就會被識破的小把戲，我也不想殺了他。要是他能把握這個機會就好了。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>昏暗的燈光讓他瞇起好看的桃花眼，在日記的擁有者似乎是亞伯，原本以為亞伯被藥物操控、絲毫沒有自己的意識⋯⋯金沅皓似乎是小看對方了。<br>闔上筆記本，胸口中微小的悸動感染他的情緒，難以掩飾的喜悅將笑容掛上臉龐。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「⋯⋯哈。」<br>「你果然注意到我了嗎？」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>難得棋逢對手，他可不能把對方放在這座監牢。<br>解去囚服的扣子，褪下橘色的布料換上與看守同樣的制服，戴上帽子遮掩臉龐。<br><br>「好了，看看能從哪逃出去。」走到窗戶邊查看。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>窗戶大小與你房間的相同，無法讓人通過。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>這窗戶要讓人通過不知道要把人切成幾片才能通過。<br>放棄從小窗戶逃脫的想法，金將地圖、文件與筆記本收進胸前的口袋內，玻璃碎片插在褲子與衣服的中間，手持棍棒、提著燈開門準備尋找亞伯。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你回到走廊上。若走到另一扇門前聆聽，會發現已經聽不到其他人的動靜了。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>確認沒有人在前面，金壓下帽沿、擺出與眾多看守一般毫無生氣地神情，推開面前的門。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你來到了處置室。<br><br>這裡空無一人。椅子附近有著上次沒看過的一灘血跡，讓人不禁聯想有人在這裡吐血、受苦的景象。【SANc 0/1】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=58 SAN (1D100&lt;=58) ＞ 52 ＞ 成功</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>繞過地面上的血跡，直接朝著首推車的方像前進，似乎是想要拿取打入自己體內的藥品。<br>如果還有注射器，那就也能當成一種武器了，金沅皓對自己找血管的能力很有信心。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>手推車上沒有擺放任何藥品與針劑，似乎是被收走了。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>感到有些惋惜的嘆口氣，走出了處置室前往浴場。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>浴場並排著數個似乎是淋浴間的房間。其中一間淋浴間的門緊閉著，隱約飄來一股淡淡的腐臭味。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>潮濕的氣味令他皺起眉頭，金沅皓走到淋浴間的門邊，嘗試打開那座緊閉的門。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你打開了門。<br><br>在狹窄的淋浴間內，有一具呈現坐姿的屍體被遺棄在了這裡。仔細一看的話，那確實是你曾經交談過的萊頓。他的肌膚已經染上青白，完全沒有任何動靜。【SANc 1/1d4】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=58 SAN (1D100&lt;=58) ＞ 36 ＞ 成功</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] SAN : 58 → 57</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>可以對屍體【偵查】或【醫學】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>見過無數屍體的金沅皓眼睛都沒眨一下，在開門前那股腐臭味已經讓他認定裡面的東西一定是死物。<br>蹲下身，未戴手套的他不願意觸碰屍體，只是用眼睛觀察。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=80 &lt;醫學&gt; (1D100&lt;=80) ＞ 81 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 82 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 2 → 1</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你發現他只有右手臂露出一塊紫色腐爛的組織。只有這個部位的腐敗速度異常地快。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「只有一天，屍體不會腐敗成這樣。」嘗試用金屬棒戳動那塊組織。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>碎裂的金屬棒沾染到膚肉裡的液體。髒掉了。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>收回金屬棒，金拿到一旁的淋浴間沖洗一下，打算前往餐廳。<br></dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>餐廳的樣子和之前造訪時一樣。目前無人駐足，也沒有準備餐點。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 87 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 1 → 0</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你在餐廳角落發現報紙的碎片。部分文字因為暈開所以無法閱讀。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【報紙碎片】<br>「紐約市從數個月開始發生的連續失蹤事件⋯⋯⋯⋯⋯位失蹤者⋯⋯⋯⋯⋯⋯⋯。⋯⋯⋯⋯警方呼籲民眾提高警覺，夜間避免單獨外出⋯⋯⋯⋯」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>上方的失蹤者數字與你的受害者人數並不相同。似乎有誰趁著你犯案的時候混入其中。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>報紙上寫的失蹤人數與近期自己犯案的件數並不同，閱讀完後放回到了原本的位置，打開廚房的大門。<br><br>他要來看看究竟是怎樣的環境能煮出如此難吃的菜品。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>廚房沒有人的氣息，也沒有準備餐點。貼有一張寫著日期跟編號的紙，看起來像是值班表。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>前去看值班表上的文字。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>上面只有標示日期與編號，你並不知道這些編號分別代表誰。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>伸手將值班表揉成紙團扔在地上，踏出步伐往玄關大廳的方向走去。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>班表可憐兮兮地變成垃圾。你接著順利來到玄關大廳。<br><br>通往外面的門微微敞開著，可以看到月光從門縫灑落進來。此外，還能看見一旁有類似走廊的空間，顯然是連接另一棟建築的通道。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>到處都沒有亞伯的身影，金沅皓推測他是在另外一棟建築物內。<br>再次壓低帽簷遮擋住自己的臉，他朝著通道前進。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>前往走廊的話，會抵達一棟截然不同的建築物。這裡與先前的地方同樣是磚造建築，老舊且帶有微微的霉臭味。<br><br>環顧像是大廳一般的空間，可以看見幾扇門以及一座螺旋樓梯。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>印象中面對樓梯左邊的房間是被打Ｘ的，金沅皓決定先前往圖書室的空間查看。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你能輕易打開圖書室的門。好幾座書架並排著，裡頭塞滿了陳舊的書本。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>視線掃過書架上方的書本，找著哪幾本是時常被翻閱過、又或者是可疑的書籍。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>查看書架的話，會發現這裡有各種不同語言的書，但都相當破舊了，無法確切得知哪些常被翻閱。<br>如果尋找自己看得懂的語言，會感覺多是以心理學或藥劑學為主題的書。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【克蘇魯神話】&amp;【圖書館】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=80 &lt;圖書館使用&gt; (1D100&lt;=80) ＞ 10 ＞ 特殊</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你的目光停在了某一本書上。書名寫著「著名的心理學實驗」。隨手翻閱的話，以下內容將映入眼簾。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【著名的心理學實驗】<br>「史丹佛監獄實驗堪稱最著名的心理學實驗之一。該實驗將受試者分作看守與囚犯兩種角色，並觀察其行為，隨著時間推移，看守組變得越來越像真的獄卒，而囚犯組也越來越像囚犯。實驗的結果證明『人會依照被賦予的角色行動』，給當時的世界帶來巨大的衝擊。」<br><br>「然而近年來，逐漸出現對該實驗結果產生質疑的聲浪。有人認為，實驗者可能曾誘導看守角色必須更加殘忍。如果推論屬實，那麼『人會因為被分配的角色，而自發改變行為』這一點，需要再重新檢視。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>自修心理學的金沅皓熟知這個實驗，將此實驗放到現在的情境幾乎完全相符，不排除這座監獄的研究者，利用藥物控制看守跟囚犯們做出符合他們期待的行為。<br>闔上書本，金沅皓退出圖書室，腳步停駐在那被畫上X的門前，耳朵貼上門扉聆聽裡面有沒有動靜。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>裡面相當安靜，但似乎有人的氣息。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>握緊手中的金屬棍，輕輕的推開門查看。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>打開房間的話，會發現這是一間簡樸的房間，比你待過的單人牢房更加狹窄，裡頭只有一個鐵柵欄構成的牢籠。<br><br>在鐵柵欄的另一側，是雙手被反綁在身後拘束的亞伯。原本整齊的服裝被揉得亂七八糟，臉上似乎還帶著擦傷。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>內部的空間放置著一個鐵牢，裡面正是他正在尋找的男子⋯⋯早知道在幫他多帶一套新衣服來的。<br><br>緩步來到牢籠前，望向反手被拘束的青年。<br>「⋯⋯你還真是讓我費盡心力。」學著那日在處置室裡聽到的話語。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>如果靠近亞伯，他會抬起頭看向你，茫然地眨了眨眼。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯你在這裡做什麼？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「我不是說過，只能依靠自己的嗎。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「我沒有需要你的幫助。」<br>「只是我也沒有將人關在牢籠的興趣。」<br><br>按照亞伯筆記上的紀錄，現在解救對方似乎對自己的處境沒有太大的幫助，金沅皓決定找出能讓亞伯心智回復正常的解藥。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「在這裡乖乖待著，別動。」<br>「⋯⋯你也動不了就是了。」<br>純黑的眼眸眯起笑眼，往門口的方向走去，打算先把亞伯留在這裡。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>亞伯只是挑了挑眉，沉默地目送你離開。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>中央的旋轉樓梯連接至二層，金沅皓放輕腳步踏上前往二樓的樓梯。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你成功來到二樓，這裡依舊是一片靜謐。在你面前的跟地圖上標示的一樣，是通往外面的陽台。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>環視二樓一圈，唯二的逃生路線是剛剛上來的樓梯跟面前的陽台，他打算先去確認陽台到一樓的高度是多少，跳下去後有沒有能緩衝的地面。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你來到了陽台。因為一片漆黑的關係，只能藉由月色判斷外面是一片森林，一層樓高度大約9～10英尺，似乎沒有能作為緩衝的東西。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>判斷完周邊的狀況，金沅皓回到室內。<br><br>考量到需要優先解除亞伯看守的身份，金沅皓決定去儲藏室查看有沒有藥品被放置在內而推開了儲藏室的門。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這是一間堆滿雜物的儲藏室。有破舊缺腿的桌子、碎裂的試管與磚塊碎片、染上污漬的紙片等，會讓你感覺這裡全是垃圾吧。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【幸運】&amp;【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 33 ＞ 成功</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=60 &lt;幸運LUCK&gt; (1D100&lt;=60) ＞ 83 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你注意到房間角落的一塊磚頭上，刻著一個小小的叉號。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>走到角落，嘗試搬動那塊刻著Ｘ的磚頭。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>伸手將那塊磚頭拉下來的話，可以取下這塊磚塊。往裡頭一看，會發現一張折起來的紙藏在這裡。<br>紙張相當陳舊，攤開後，會看見一行行手寫文字。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【儲藏室的紙條】<br>「我想著或許總有一天會被誰發現，而寫下了這些文字。<br>我以囚犯的身份來到這裡，三天後就離開了。逃出的方式其實很簡單，要說為什麼的話，因為對手只不過是一群烏合之眾。<br><br>我看到一名看守被打了某種液體。我大概能猜到那是什麼。<br>會搞出這麼大規模實驗的傢伙，不可能沒有準備解毒劑吧。所以我偷偷潛進研究室，把那東西弄到手了。那個顏色怪異的抗血清。<br><br>但是這邊的看守們，就算打了那個東西也不想逃跑。<br>要是還殘存一點點反抗的念頭，就不會留在這種地方了吧。被馴服的狗是無藥可救的。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「解毒劑啊⋯⋯」看來就在隔壁的研究室。<br><br>將紙條收進口袋內，快步的前往研究室的門前，沒有貿然的打開門，一樣先是將耳朵貼上門扉。<br></dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你能聽到裡頭有些動靜。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>注意到裡面有動靜，金沅皓知道不能直接闖進去，而是回去滿地雜物的儲藏室尋找有沒有可用的武器，例如小刀、手術刀等。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【幸運】減半</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=60/2 &lt;幸運LUCK/2&gt; (1D100&lt;=30) ＞ 5 ＞ 決定性的成功/特殊</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 0 → 1</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你成功找到了被遺棄的小刀。不知道為什麼被放在了這裡。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>拾起遺落在地面的小刀，刀鋒面還算是尖銳，右手握著手柄，握起來還算是順手。<br>回到研究室門前，金沅皓緩緩地推開門，打算在不引人注意的情況下偷偷潛入。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>這個房間被數個燈具照得燈火通明，藥櫃與書架並排而立，瀰漫著研究室的氛圍。<br>深處擺著一張書桌，身穿白色長袍的人正站在桌前。那個男人給人一種冷冽的感覺，注意到門被打開後，便緩緩轉過身來。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd>「⋯⋯」</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】或【靈感】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 3 ＞ 決定性的成功/特殊</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 1 → 2</dd></dl>
+	<p class="tc3 tab"><span>紀錄</span></p>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd>偵查大成功</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在燈火照映下，那個人的影子隨之搖曳，形狀顯得有些扭曲，令人感到違和。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>白袍男子轉過身，金沅皓也沒有要隱藏的意思，直起身看向面前的男子。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd>「我還想著是誰，結果是新來的老鼠啊。20號。」注意到你手中的武器，他也跟著拿起桌上的刀具。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>進入與男子的戰鬥。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 91 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 43 ＞ 成功</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="SU">CCB&lt;=28 &lt;迴避&gt; (1D100&lt;=28) ＞ 19 ＞ 成功</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>沒有與獵物廢話的習慣，金沅皓握緊刀柄，瞬間拉近兩人的距離，嘗試劃開對方的頸部卻失敗。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd>「還真是有精神的老鼠。」側身躲過你的攻擊，他抓準時機，將手中的刀往你的腹部刺去。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 70 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 100 ＞ 致命性失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 2 → 1</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「我很好奇，為何你要拿我們做實驗？」他從沒想過會被別人綁架。<br>或許是在躲避朝著腹部前來的攻擊而又再次失手。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd>「這個問題，就像是在問人類為什麼要吃牲畜一樣。」他冷笑一聲，這次打算攻擊你拿刀的手。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="SU">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 22 ＞ 成功</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=62 &lt;閃避&gt; (1D100&lt;=62) ＞ 8 ＞ 特殊</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「在我看來你跟畜生也並無不同。」再次朝向白袍男子揮出刀刃。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 81 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd>「還真是靈活。要是那隻老鼠沒有做多餘的事，你早就死在這裡了吧。」見你躲過他的攻擊，他笑出一聲，顯然並沒有聽進你的話。</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 27 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 99 ＞ 致命性失敗</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] 大成功 : 1 → 0</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 92 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 73 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=25 &lt;小刀&gt; (1D100&lt;=25) ＞ 74 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=50 &lt;拳/鬥毆&gt; (1D100&lt;=50) ＞ 39 ＞ 成功</dd></dl>
+	<dl class="tc0 nc8"><dt>身穿白色長袍的人</dt><dd class="FA">CCB&lt;=28 &lt;迴避&gt; (1D100&lt;=28) ＞ 33 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>或許是小刀用的不順手，金沅皓放棄使用刀攻擊，轉而與對方肉搏，攻擊對方的臉部。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d3+1d4 (1D3+1D4) ＞ 2[2]+1[1] ＞ 3</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你的拳頭直直擊中他的臉。接著，男子的身體猛然傾斜，他的輪廓、面容都像是融化一樣逐漸模糊。<br><br>在令人屏息的短短數秒間，他的樣貌已經蛻變成與人類相似、卻又不是人類的某種存在。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>出現在那裡的，是擁有光滑的鱗片、眼瞳上揚的巨大蛇類。依然穿著長袍的那個生物，用柔軟的手腳再次站起身，目光蘊含著冰冷的怒意，再度與你對峙。<br><br>你因為目睹如此明顯的怪異轉變【SANc 0/1d6】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=57 SAN (1D100&lt;=57) ＞ 76 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d6 (1D6) ＞ 6</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] SAN : 57 → 51</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=90 &lt;靈感IDEA&gt; (1D100&lt;=90) ＞ 82 ＞ 成功</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>1d10+1d10 (1D10+1D10) ＞ 6[6]+8[8] ＞ 14</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>殺人慾望或自殺行為	以「殺死」為目標，可以自行決定對象，該對象死亡後需變更對象。<br>持續8回合。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>目睹非人存在的物種，顛覆了金沅皓的認知，巨大蛇類穿著白袍的模樣讓他意識到可以有與他抗衡的事物——必須要清除、必須把面前的「怪物」殺死。<br>握緊小刀，金沅皓朝著巨大蛇類衝過去，想用刀鋒畫開鱗片。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 38 ＞ 成功</dd></dl>
+	<dl class="tc0 nc9"><dt>蛇人</dt><dd class="FA">CCB&lt;=28 &lt;迴避&gt; (1D100&lt;=28) ＞ 93 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d4+1d4 (1D4+1D4) ＞ 1[1]+1[1] ＞ 2</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你的刀刃刺入了祂冰冷的皮膚，祂立刻張大嘴、發出嘶吼，打算往你的手臂咬去。</dd></dl>
+	<dl class="tc0 nc9"><dt>蛇人</dt><dd>CCB&lt;=35 &lt;啃咬&gt; (1D100&lt;=35) ＞ 96 ＞ 致命性失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=65 &lt;小刀&gt; (1D100&lt;=65) ＞ 79 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc9"><dt>蛇人</dt><dd class="FA">CCB&lt;=28 &lt;迴避&gt; (1D100&lt;=28) ＞ 63 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d4+1d4 (1D4+1D4) ＞ 3[3]+3[3] ＞ 6</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你趁著他咬空的瞬間，將刀刃深深刺入他的頭部。受到了這樣的致命傷，只見祂張開血盆大口，踉蹌地往後倒去，接著便一動也不動了。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>金殺死蛇人。瘋狂狀態解除。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>解除了危機。現在你總算可以進行研究室內的探索。<br><br>【可探索的地方：藥櫃、書架、牆壁】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>蛇人倒地，金沅皓放下手中的刀具，黑眸停駐在怪物的屍體上，體力尚未完全恢復的他扶著桌面喘口氣。<br>待心跳平復後，金沅皓先是前往藥櫃尋找解毒劑。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>藥櫃陳列著無數個燒杯，以及貼著標籤的試管。<br><br>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 77 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>興許是剛剛戰鬥過後相當疲憊的關係，你多花了一些時間尋找解毒劑，並注意到深處保存的兩個藥品。一個是淡黃色，另一個則是淡紫色。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【化學】或【藥劑學】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=41 &lt;藥劑學&gt; (1D100&lt;=41) ＞ 65 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「顏色怪異的抗血清⋯⋯」<br>紙條上寫著抗血清的顏色怪異，亞伯的筆記上寫說他被打了淡黃色的藥劑後就變成了看守，那紫色的肯定就是解毒劑了吧。<br>最後決定拿走兩種的液體。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你順利拿走兩瓶藥劑。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>走到書架邊查看是否有相關資料。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>書架排放著數個帶有編號的資料夾。<br><br>20號資料夾中，以手寫方式整理了你自己的本名、年齡、職業等個人資料。只有7號資料夾裡的內容全被拿光了。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>【偵查】</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 71 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>注意到只有七號的資料夾是空著的，金沅皓逐一翻開資料夾，查看七號的資料是否有誤夾在某頁，也查看是否有之前同為囚犯的亞伯的相關資料。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>由於不知道亞伯的編號，你花了一段時間逐一翻閱資料，最後在17號資料夾中，發現裡頭夾著一張你看守的照片。他身穿囚服，一臉不悅地看著鏡頭，還有似乎是他個人資料的文件。</dd></dl>
+	<p class="tc2 tab"><span>情報</span></p>
+	<dl class="tc2 nc0"><dt>KP赤Seki</dt><dd>【17號文件】<br>「亞伯・索爾貝格、出生年月日 19xx年4月7日<br>血型 O-<br>似乎患有名為無痛症的家族遺傳疾病，不能久曬太陽。與原生家庭失聯已久，目前獨居在紐約市，養育者與他並無血緣關係。職業是美國聯邦調查局的特別探員，但似乎沒有跟其他同夥一起行動。<br>因經常表現出反抗態度，且難以進行記錄，因此使用了吐真劑。<br>實驗開始後第28天，終止作為實驗體運用。」</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「無痛症⋯⋯」金沅皓曾經有在研究論文上看過類似疾病，從未遇過真正的患者。<br>闔上資料夾，他開始在書架、地面、桌面、整個房間搜索7號的相關文件。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你在其他地方找不到類似的資料夾。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>找著找著來到了牆壁邊。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你來到牆壁邊，會發現這一面牆上剛好設有掛勾，上面掛著一串鑰匙。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>指尖勾起那串鑰匙，在櫃子上找到了空著的注射針頭——甚至還不忘記拿酒精棉片跟膠布。<br>金沅皓再次來到蛇人的屍體旁盯了一會，似乎是想確認這模樣並不是自己的幻想。<br><br>步出研究室，他回到了關押著亞伯的房間。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你回到了亞伯所在的牢房。聽見門口有動靜，他便抬起頭查看狀況。見你又回到這裡，他微微蹙起眉頭，沉默地盯著你。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「有乖乖待在這啊。」推開房門，金沅皓朝著亞伯露出滿意的笑容。<br>沒有再讓對方等待，金沅皓拿起鑰匙，嘗試打開牢籠上的鎖。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你能找到標有「X」記號的鑰匙，並順利打開牢籠的門。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯你在做什麼。」見你踏入其中，他蹙了蹙眉頭。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「你猜猜看。」<br>將兩瓶藥劑分別拿出，把淡黃色的液體秀給亞伯看：「當時，你被打的是這一瓶對吧？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯我不知道你在說什麼。」他瞥開視線，語氣依舊冰冷。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「你一直都這麼冷淡嗎？」收起那瓶黃色的藥劑，排出注射器中所有的空氣後從試管中抽取淡紫色的液體。<br>最好尋找血管的手臂被捆綁在後方，金沅皓緊盯著那佈滿紅點的頸部。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>由於不確定你要做些什麼，亞伯只能反射性地回頭觀察你的舉動。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「請不用擔心，我不會弄痛你的。」友善的笑容與溫和的語氣，讓他看起來就像是醫院內和藹可親的好醫生。<br>這些都只是他的偽裝。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>大掌施力將亞伯的頭部壓制在椅背上不讓他扭動，針頭對準白皙的脖頸。<br>「⋯⋯雖然你應該感受不到。」低聲說著的同時注射器刺入皮膚內，緩慢的將藥劑推送入對方的血液中。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你對亞伯注射了淡紫色的液體。下一瞬間，他的身體開始顫抖不已，但不久後就會平靜下來。接著，他詫異地望著你。</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>「⋯⋯那是什麼？」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>沒有見過亞伯真實面貌的金沅皓不確定自己是否成功，沒有收回壓制對方的手，只是先把酒精棉球貼在注射的位置後才抽出針頭。<br><br>「解毒劑⋯⋯如果我沒搞錯的話。」低下頭觀察起對方的反應。<br>「你知道我是誰嗎？」</dd></dl>
+	<dl class="tc0 nc5"><dt>亞伯？</dt><dd>就像是脖頸上的洞口不存在一般，他勾起笑容、轉過頭面對了你。緋紅的眼眸已經抓回原本的神采，卻又被面前的臉旁遮蔽些許光輝。<br><br>「⋯⋯哈哈。金，是吧？」他瞇起眼眸喃喃道，彷彿觀察著什麼有趣的事物，直直盯著烏黑的雙眸。<br><br>「看來你看過我的資料了，那個男人呢？你不可能大搖大擺地走進去吧。」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>鬆開箝制住對方面龐的手，金沅皓沒有退開步伐，維持著兩人之間過近的距離。方才觸碰到酒精棉球的指尖滑過亞伯臉部的擦傷，淺淺的、看來不會造成疤痕。<br><br>「為了盡快幫你找解毒劑，我直接走進實驗室，而他朝著我攻擊過來⋯⋯那傢伙根本不是人類啊。」<br>「我這是正當防衛。」<br>怎麼感覺他語氣裡夾帶著期待被稱讚的意圖。</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>從話語中猜測那個男人興許遭遇不測，但真身似乎不是人類⋯⋯？比起那個人的事情，眼前的男子更加勾起他的好奇。<br><br>「那你想要我感謝你？還是給你一個吻？」對方的語氣實在太像是討糖的孩子，他沒能忍住地輕笑出一息。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「吻？你比我想像的還熱情。」沒有回應自己想要的是什麼，金沅皓的手繞到對方的背後嘗試解開束縛住對方雙手的繩子。</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>「你不也相當熱情嗎？還以為你會因為記仇，所以自己一個人跑走了呢。」顯然還記得對方對自己說的那些話。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>在對話期間，你成功解開了亞伯的束縛，而他立刻收回了手，反射性地檢查手腕上的紅痕。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「我看起來是那麼狠心的人嗎？看來你對我的認識還不夠深。」在解開亞伯的束縛後，視線也落在留著紅痕的手腕處，想查看對方的傷勢。</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>「你比我想像得還要難問話，我也沒辦法。」他聳了聳肩，顯然是指昨天早上的問答。簡單確認自己似乎沒受多大的傷，他準備從椅子上起身。<br><br>「只有你知道我的事，不太公平吧。我該去哪裡找到你？」雖然從這裡出去之後，找到對方並不是多困難的事情，但之後要忙的事情可多了，他一定能如願見到他。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「你不會想在我的工作場合見到我的⋯⋯除非你身中子彈，或是又被打了奇怪的藥劑。」在確認亞伯受的傷不會影響活動後也退開身體讓對方更方便起身。<br>「還是你說的是⋯⋯私下見面？」</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>站起身後，換他主動靠近對方，稍微抬頭看向眼前比自己高大的男子。<br><br>「你知道的⋯⋯我需要一個能保守秘密的醫師。」他伸出白皙的指尖，距離金的臉龐僅有咫尺，靜靜地從他的眼眸描繪到下巴。接著，他撫起一縷烏黑的髮絲，將其勾到耳後，好看清完整的面貌。<br><br>「跟關係人私下見面，通常是不被允許的。但如果是朋友的話，不會有太大問題。」他瞇起眼眸，貌似希望對方答應這個提議。</dd></dl>
+	<p class="tc0 tab"><span>メイン</span></p>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>手指滑過他的鼻尖時，他用幾不可聞的力道輕嗅皮膚上的香氣——只可惜那似乎還參雜著這座監獄霉味，如果可以金沅皓現在就想將對方清理乾淨，最好還能留下自己的味道。<br><br>「別擔心，我們可以簽一份醫病保密協議。」微涼的面龐貼上滾燙的掌心，好看的桃花眼滿意的瞇成笑眼對上緋紅色的雙眸，「我們當朋友，我想不會有人會有意見。」</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>看來是很寂寞的人啊。見男子如此溫順又討好自己的模樣，亞伯輕輕地笑了，指腹下意識地輕撫肌膚，步伐也不禁往前更進一步。<br><br>「這件事情可不能留下證據。」彼此的臉龐已經近到能感受彼此的吐息，他的雙唇似乎要吻上金的嘴角，卻又停留在原處。<br><br>「出去之後，我不能保證什麼時候能見到你。你會乖乖等我吧？」他低聲提問，卻隱約透露不容拒絕的態度。</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>對方的唇瓣幾乎要貼上自己，金沅皓卻還是維持在原位不動。<br><br>「⋯⋯嗯，知道了。」語氣中夾帶著的留戀不知道是表演出來的還是真實的，他閉起眼睛感受著對方的輕撫，腦海中已經開始構思下次該給索爾貝格探員什麼樣的驚喜。</dd></dl>
+	<dl class="tc0 nc10"><dt>亞伯</dt><dd>「好孩子。」他輕語道，留下這近乎甜膩的話語，代替唇瓣為印記給予了他，指尖也在離開時帶走些許溫熱。<br><br>「好了，我還得把我的東西拿回來。幫我個忙？」</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>「由我帶路吧。」打開牢房的門，讓出一條道路讓亞伯通行，金沅皓也跟在後頭，視線落在對方頸側的髮絲。<br><br>想必日後他的雙眼只會追隨著那抹顏色吧。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>蛇人的屍體還留在研究室原處，見到這番景色的亞伯雖然震驚，但沒有陷在這份情緒太久。他很快找到專屬於他的第17號文件，營造其在混亂的現場之中被毀損的假象，接著將其他人從牢籠中釋放出來。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>當你們帶著「囚犯」們走向出口的門扉，可以看見遠方的天空正逐漸泛白。<br><br>踏出門外的人們，雖然露出一臉難以置信的表情，但很快又綻放出無比開朗的笑容。<br><br>「⋯⋯真的出來了。」<br>「終於能逃走了。我們、已經自由了。」<br><br>他們這麼說著。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>你們沿著森林的小徑走向城鎮，想必不久就會受到庇護。<br><br>在那之後，亞伯果然陷入忙碌之中，一段時間都沒辦法與你見面。某天閱讀報紙或電視時，失蹤者的新聞將映入眼簾。跑馬燈列著許多人的姓名和面容，除了你的受害者，還有那座監獄中的人，其中也包含萊頓。<br><br>你們倖存了。帶著這段奇妙的緣分。</dd></dl>
+	<dl class="tc0 nc0"><dt>KP赤Seki</dt><dd>■END4「想要的僅僅是自由」<br><br>報酬 SAN增加<br>生還：1d6<br>KPC生還：1d3<br>遭遇蛇人：【克蘇魯神話】+2</dd></dl>
+	<dl class="tc0 nc1"><dt>金沅皓</dt><dd>1d6+1d3 (1D6+1D3) ＞ 3[3]+1[1] ＞ 4</dd></dl>
+	<dl class="tc0 nc6"><dt>system</dt><dd>[ 金沅皓 ] SAN : 51 → 55</dd></dl>
+	<p class="tc3 tab"><span>紀錄</span></p>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 78 ＞ 失敗</dd></dl>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 46 ＞ 成功</dd></dl>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd class="FA">CCB&lt;=70 &lt;偵查&gt; (1D100&lt;=70) ＞ 94 ＞ 失敗</dd></dl>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd class="SU">CCB&lt;=41 &lt;藥劑學&gt; (1D100&lt;=41) ＞ 27 ＞ 成功</dd></dl>
+	<dl class="tc3 nc1"><dt>金沅皓</dt><dd>1d20 (1D20) ＞ 5</dd></dl>
+	<p class="tc4 tab"><span>背景</span></p>
+	<dl class="tc4 nc0"><dt>KP赤Seki</dt><dd>背景<br>　黑幕是某位蛇人。他綁架人類，將他們關在森林裡的洋館中，強迫他們過著「囚犯」的生活。其目的是透過研究各式各樣的毒藥，以增加人類不斷增長的對策，雖然稱作囚犯，實際上更像是被當作實驗動物來飼養。<br><br>　最一開始只有幾人作為實驗對象，但數量逐漸增多了。蛇人認為自己一人無法管理一切，於是想到可以從實驗對象中挑出一些可以結束實驗的人，並對他們施打支配血清，讓他們成為「看守」。看守們受到支配血清的力量束縛，被迫一邊管理身為實驗對象的囚犯，一邊協助進行實驗。換句話說，看守就是身為前囚犯的實驗助手，對蛇人來說，他們的生命反而比囚犯更沒有價值。<br><br>　看守受到的咒語束縛內容如下。這些咒語，只要不注射從看守樓研究室中取得的「支配血清的抗血清」，就會持續存在。<br>・不會自殺或逃亡，也不會幫助他人自殺或逃亡<br>・必須保守秘密，不能對實驗對象流露感情<br>・必須遵守實驗流程<br><br>　在本劇本開始的時間點，KPC已經結束作為實驗體的作用，成爲了「看守」，並與新成為囚犯的PC對峙。但是KPC還記得身為囚犯時的痛苦，因對PC抱有罪惡感，也不想成為殺人者的關係，於是暗中反抗蛇人。他將本來要打在自己管理的「囚犯」PC身上的毒藥，打在了已經死掉的「囚犯」屍體上，試圖避免PC死亡。也就是說，既然指示是要打在「囚犯」身上，那麼打在屍體身上也是符合的，他用了這樣的歪理來鑽漏洞。<br><br>　蛇人因為沒有得到預想中的實驗結果，很快就發現了KPC微不足道的反抗。他命令看守們抓住並處理掉KPC，在這片混亂之中，PC獲得了逃獄的機會。<br><br>　基本的劇情走向如同上述，但實際上PC隨時都可以自由嘗試開鎖、強行撬開鐵欄杆、讓KPC昏倒之後逃走等方法逃獄。只是如果在KPC被抓住之後的時間點嘗試逃脫，兩人會更容易生還。<br><br>　通關條件是「從被囚禁的宅邸中逃出」。能自主逃走的只有未被施打支配血清的囚犯，（未解除咒語束縛的）看守絕對無法自行逃離。也就是說，如果被PC丟下不管的話，KPC一定會撕卡。</dd></dl>
+
+</section>
+</main>
+<footer><a href="https://box.tetronomo.com/ccfc/" target="_blank">CCFOLIAログコンバータ Ver1.30</a></footer>
+<script type="text/javascript">
+const tab = [];
+const name = [];
+const trigger = document.querySelectorAll(".select_t");
+trigger.forEach(function(target) {
+	target.addEventListener('change', function() {
+		const classname = target.id;
+		const id = classname.split("tc");
+		tab[id[1]] = target.checked ? '' : 'none';
+		const tid = tab[id[1]];
+		const arr = document.querySelectorAll("." + classname);
+		arr.forEach(function(value) {
+			const string = value.className;
+			let temp = "";
+			let nid = "";
+			if(string.match('nc')) {
+				temp = string.split("nc");
+				nid = temp[1].substring(0,1);
+			}
+			if(tid == 'none') {
+				value.style.display = 'none';
+			} else {
+				if(name[nid] == 'none') {
+					value.style.display = 'none';
+				} else {
+					value.style.display = '';
+				}
+			}
+		});
+	});
+});
+const triggern = document.querySelectorAll(".select_n");
+triggern.forEach(function(target) {
+	target.addEventListener('change', function() {
+		const classname = target.id;
+		const id = classname.split("nc");
+		name[id[1]] = target.checked ? '' : 'none';
+		const nid = name[id[1]];
+		const arr = document.querySelectorAll("." + classname);
+		arr.forEach(function(value) {
+			const string = value.className;
+			const temp = string.split("tc");
+			const tid = temp[1].substring(0,1);
+			if(tab[tid] == 'none') {
+				value.style.display = 'none';
+			} else {
+				if(nid == 'none') {
+					value.style.display = 'none';
+				} else {
+					value.style.display = '';
+				}
+			}
+		});
+	});
+});
+</script>
+</body>
+</html>
